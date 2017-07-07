@@ -31,7 +31,7 @@ If you have trouble with the installation, there is a [video walkthrough](https:
 
 ## References
 
-See 'Intro_to_R.Rmd' for references
+See _Intro_to_R.Rmd_ for references
 
 ## Authors
 
@@ -39,4 +39,4 @@ See 'Intro_to_R.Rmd' for references
 
 ## Acknowledgments
 
-Thank you to Christina Maimone for help with student access to Data Camp.
+Thanks to Christina Maimone for help with student access to Data Camp.
