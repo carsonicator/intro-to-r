@@ -1,0 +1,771 @@
+---
+title: "(A Brief) Introduction to R"
+author: "Matt Carson, matthew.carson@northwestern.edu"
+date: "June 27 & 29, 2017"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Setting 'echo = FALSE' prevents printing of the R code that generated the plot.
+```
+
+
+# R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. Writing code with the Markdown framework helps to facilitate organization and reproducibility in your research and makes it easy to share nicely-formatted reports with your colleges. For more details on using R Markdown see *<http://rmarkdown.rstudio.com>*.
+
+A **reference guide** is here: *<https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf>*
+
+A **cheat sheet** is avaiable at *<https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>*.
+
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
+
+See *<https://www.r-bloggers.com/r-markdown-and-knitr-tutorial-part-1/>* and *<https://www.r-bloggers.com/r-markdown-and-knitr-tutorial-part-2/>* for **detailed instructions on how to set up Knitr in R Studio**.
+
+If you are interested in becoming more proficient in the **R Studio environment**, take this 3-hour Data Camp course: *<https://www.datacamp.com/courses/working-with-the-rstudio-ide-part-1>*
+
+## NOTE:
+Several of the code chunks that we will execute have R Studio interface equivalents. I will point these out in the text below where applicable in a block like this:
+
+
+> --- There's an R Studio feature for this!!! ---
+
+# The Very Basics...
+
+R is a high-level, interpreted programming language and environment for (primarily) statistical analysis. Read more about it here: *<https://www.r-project.org/about.html>*.
+
+We will start by going through the fundamental stuff.
+
+
+## Arithmetic Operations
+```{r}
+# Addition
+5 + 6
+
+# Subtraction
+100 - 1
+
+# Multiplication
+4 * 4
+
+# Division
+(6 - 5) / 4
+
+# Exponentiation
+2 ^ 100 
+
+# Modulo (returns the remainder)
+21 %% 5
+```
+
+## Assigning variables
+```{r}
+# The '<-' operator assigns a value to a variable
+x <- 5 + 6
+x
+
+# However, '=' also works.
+y = 100 - 1
+print (paste("y equals", y))
+
+z <- x + y
+print (paste("z equals x + y, or", z))
+```
+
+## Basic Data Types
+
+The following are basic data types in R:
+
+* numeric (real numbers like 5.3)
+* integer (1, 2, 3...also numeric class)
+* character (text) 
+* logical (Boolean values, TRUE and FALSE)
+
+
+```{r}
+# Numeric
+numeric_value <- 234.77
+
+# The function class() returns the data type for the R object 
+print(paste("numeric_value", numeric_value, "is of type", class (numeric_value)))
+
+# Integer
+integer_value <- 234
+
+print(paste("integer_value", integer_value, "is of type", class (integer_value)))
+
+# Character
+# By putting quotes around the value, we are telling R that this is text.
+character_value <- "234"
+
+print(paste("character_value", character_value, "is of type", class (character_value)))
+
+# Logical
+logical_value <- TRUE
+
+print(paste("logical_value", logical_value, "is of type", class (logical_value)))
+```
+
+# Vectors
+
+In R, a **vector** is a one-dimensional array. It is a sequence of elements of the same data type. Elements of a vector are called **components**. You assign elements to a vector using the **combine function**, _c()_.
+
+NOTE: Technically, everything in R is a vector. You don't need to worry about this as a beginner user, so we won't go into it here. If you want to go into the weeds on this, here are a couple of blogs discussing this subject:
+
+* *<http://www.noamross.net/blog/2014/4/16/vectorization-in-r--why.html>*
+* *<http://alyssafrazee.com/2014/01/29/vectorization.html>*
+
+
+## Vector Types
+
+```{r}
+# Different types of vectors
+numeric_vector <- c(12, 76, 245)
+numeric_vector
+
+character_vector <- c("twelve", "seventy six", "two hundred forty five")
+character_vector
+
+logical_vector <- c(TRUE, TRUE, FALSE)
+logical_vector
+```
+
+## Naming Vectors
+
+```{r}
+# Before names are added...
+num_guitars <- c(1, 4, 2, 15)
+num_guitars
+
+# After...
+names(num_guitars) <- c("Bob", "Sue", "Max", "Emilia")
+num_guitars
+
+# How many guitars does Emilia have?
+num_guitars["Emilia"]
+num_guitars[4]
+
+# You could also assign the names like so...
+num_guitars <- c(1, 4, 2, 15)
+guitar_names <- c("Bob", "Sue", "Max", "Emilia")
+
+names(num_guitars) <- guitar_names
+num_guitars
+```
+
+## Adding Vectors
+
+```{r}
+
+# Vector describing the number of guitars owned by four people
+num_guitars <- c(1, 4, 2, 15)
+names(num_guitars) <- c("Bob", "Sue", "Max", "Emilia")
+
+# How many guitars do they own collectively?
+total_guitars <- sum(num_guitars)
+print(paste("Total number of guitars:", total_guitars))
+
+# Bob, Sue, Max, and Emilia went to a guitar auction. Some bought and some sold guitars.
+bought_and_sold <- c(-1,-2, 8, 0)
+
+# How many does each person own now?
+new_num_guitars <- num_guitars + bought_and_sold
+new_num_guitars
+```
+Notice that both vectors don't have to be named; R will perform the operation element-wise and transfer the names to the new vector, 'new_num_guitars'. But what if both vectors have names and they aren't the same?
+
+```{r}
+# Vector describing the number of guitars owned by four people
+num_guitars <- c(1, 4, 2, 15)
+names(num_guitars) <- c("Bob", "Sue", "Max", "Emilia")
+
+# Bob, Sue, Max, and Emilia went to a guitar auction. Some bought and some sold guitars.
+bought_and_sold <- c(-1,-2, 8, 0)
+names(bought_and_sold) <- c("Joe", "Frank", "Lisa", "John")
+
+# Which set of names get transferred to the new vector?
+new_num_guitars <- num_guitars + bought_and_sold
+new_num_guitars
+
+# How about if we switch the order on the right side?
+new_num_guitars <- bought_and_sold + num_guitars
+new_num_guitars
+```
+
+The set of names associated with the left-most vector in the addition operation is the one chosen. Be aware of this if you are performing operations on named R objects!
+
+## Matrices
+
+A matrix is a 2-dimensional vector (i.e., it has rows and columns) that contains elements of the same type. In R, these can be numeric, character, or logical values.
+
+```{r}
+# A matrix with 4 rows with the number 1 - 12 by row
+matrix(1:12, byrow=TRUE, nrow=4)
+
+# You can also create a matrix like this:
+a <- c(1, 2, 3)
+b <- c(4, 5, 6)
+c <- c(7, 8, 9)
+d <- c(10, 11, 12)
+
+mat <- matrix(c(a, b, c, d), nrow = 4)
+
+# Vectors to name matrix rows and columns
+colors <- c("red", "green", "blue")
+shapes <- c("circle", "square", "rectangle", "triangle")
+
+# These functions add names to rows and columns of a matrix
+colnames(mat) <- colors
+rownames(mat) <- shapes
+
+# 'shapes' matrix with row and column names:
+mat
+
+# Find the total numbers of each shape in the matrix
+total <- rowSums(mat)
+
+# Bind the new vector as a column to mat
+tot_mat <- cbind(mat, total)
+
+# Same matrix but with an added column of row totals
+tot_mat
+
+# Add a row
+hexagon <- c(13, 14, 15, 42)
+
+tot_mat <- rbind(tot_mat, hexagon)
+
+# Now with an added row
+tot_mat
+
+# Select just the circle row
+circles <- mat[1,]
+circles
+  
+# How many green squares and rectangles are there?
+some <- mat[2:3,2]
+
+# Green squares and rectangles
+some
+
+# Average number of shapes
+mean(mat)
+
+# Subtract 2 from all elements
+mat - 2
+```
+
+
+## Factors
+
+In R, categorical variables are called factors. These variables can be composed of either unordered categories or ordered levels (ordinal).
+
+
+```{r}
+
+# Gender, a non-ordered categorical variable of type 'character'
+genders <- c("Male", "Female", "Female", "Male", "Female")
+genders
+
+# Change 'genders' to a factor
+factor_genders <- factor(genders)
+factor_genders
+
+# Size, an ordinal variable
+size <- c("Small", "Large", "Medium", "Medium", "Large", "Large", "Small")
+factor_size <- factor(size, ordered = TRUE, levels = c("Small", "Medium", "Large"))
+factor_size
+
+# Give a summary of the counts of each category
+summary(factor_size)
+
+# Choose a size to compare (the first component of the vector)
+first_size <- factor_size[1]
+
+# Choose another size (the fourth component of the vector)
+second_size <- factor_size[4]
+
+# Is the first size larger than the second size?
+print(first_size)
+print(second_size)
+
+print(paste("Is the first size larger than the second size?", first_size > second_size))
+```
+
+We'll see more examples of factors later, so let's move on.
+
+## Data Frames
+
+Like a matrix, a data frame has rows and columns. However, unlike a matrix, a data frame can contain multiple data types. Columns contain **variables** and rows contain **observations**. The structure of a data frame is similar to that of an Excel spreadsheet.
+
+
+
+```{r}
+# Create vectors containing data about four people's guitar collections
+owner <- c("Bob", "Sue", "Max", "Emilia")
+count <- c(0, 2, 10, 15)
+value <- c(0, 605.50, 5140.10, 9243.44)
+professional <- c(FALSE, FALSE, TRUE, TRUE)
+
+# Create a data frame from the vectors
+guitars_df <- data.frame(owner, count, value, professional)
+guitars_df
+
+# Returns only the 'professional' variable
+#guitars_df$professional
+
+# Returns the entire row for every professional player
+# Use ! to return all non-professiona players
+#guitars_df[professional,]
+
+```
+
+## Lists
+
+Lists let you store many types of R objects in one structure. These objects don't have to be related at all, but often are. A common use of lists is to provide a single container for different data types returned by a single R function. We'll see an example of this a little later.
+
+
+```{r}
+# Vector of 5 numbers
+v <- 1:5 
+
+# A 3 x 2 matrix of numbers from 1 to 6
+m <- matrix(1:6, ncol = 2)
+
+# First 5 rows of the built-in data set 'iris'
+iris_head <- iris[1:5,]
+
+# Create a list and give the component names
+some_list <- list(vec = v,
+                  mat = m,
+                  df  = iris_head)
+some_list
+
+# Print the vector component of some_list
+# All three of these do the same thing
+some_list$vec # by name
+some_list[["vec"]] # using a text value for the name
+some_list[[1]] # by index
+
+# Print the second element of 'vec'
+some_list[["vec"]][2]
+
+# Add an element to a list
+some_list$another_component <- c("a", "b", "c")
+some_list
+```
+
+
+These are the very basics of R. We will now go through an example where we explore a data set and calculate a few descriptive statistics.
+
+***
+
+# Working with a data set
+
+## First, how to get help from R
+We are going to work with one of R's built-in data sets called *iris*. First, let's find out more about the iris data. We can do that by typing '?' before the name, or by typing 'help (iris)'.
+
+
+```{r}
+# What is 'iris'?
+?iris
+
+# All of these do the same thing; quotes are optional
+# help(iris)
+# help("iris")
+# ?"iris"
+```
+
+
+More information about getting help in R (including vingnettes, codes demonstrations, and searching) can be found here: *<https://www.r-project.org/help.html>*.
+
+> --- You can also search for terms using the **'Help'** tab on the right. ---
+
+**R Bloggers** (*<https://www.r-bloggers.com/>*) and Stack Exchange's **Cross Validated** (*<https://stats.stackexchange.com/>*) are also great resources for examples and explanations of both statistical concepts and R code.
+
+## Getting to know the data
+
+What does the *iris* data set look like? You can use the _View()_ function to get an 'Excel-like' view of your data:
+
+
+```{r}
+View(iris)
+```
+
+
+ > --- You can also do this by double clicking on the object name in the **'Environment'** window in the upper right corner. You can sort each column by clicking on the column name. ---
+
+When working with a new data set, it's a good idea to take a few minutes to examine and summarize it. Let's take a look at *iris*. The class function tells us the type of object we are dealing with.
+
+
+```{r}
+# Slowly type 'class(iris)' below
+class(iris)
+```
+
+
+As you typed the 'class' command, you should have seen a pop-up menu of available functions and their descriptions. As you continue to type *iris*, you will see a description of available objects and their descriptions that match the name *iris*.
+
+You can check the structure of *iris* to see if the variable types seem correct. This is done using the _str()_ function.
+
+> --- You can also click the blue circle next to the appropriate object under the **'Environment'** tab on the right ---
+
+
+```{r}
+# str() returns the structure of the object
+str(iris)
+```
+
+
+Notice that the first four variables are of type 'numeric'. The fifth variable, 'Species', is of type 'factor'. In R, categorical variables are called **factors**. *R will set imported string as factors unless you tell it otherwise*. We'll see how to do this later.
+
+What is the size of the *iris* data set? The _dim()_ command will tell us.
+
+
+```{r}
+# dim() returns the dimensions of the data set
+dim(iris)
+```
+
+
+The output confirms that there are 150 rows and 5 columns.
+
+You can check the column (variable) names for your data set with _names()_:
+
+
+```{r}
+# names() returns the names of the variables (columns) in the data set
+names(iris)
+```
+
+
+What if we want basic counts and distribution characterisitics for all variables? We can use _summary()_ for this:
+
+
+```{r}
+# summary() returns a summary of all data in the object
+summary(iris)
+summary(iris$Sepal.Length)
+fivenum(iris$Sepal.Length)
+```
+
+
+_summary()_ returns the appropriate statistics for each variable type. For numeric values, it returns a 5-number summary along with the mean. For catergorical variables (factors), it returns a count for each category.
+
+Another handy set of functions is _head()_ and _tail()_. They return the first and last _n_ rows of a data frame, respectively:
+
+
+```{r}
+# The first n rows...
+head(iris, n = 5)
+```
+
+
+```{r}
+# The last n rows...
+tail(iris, n = 7)
+```
+
+
+You can also print the entire contents of an object with _print()_, although you should be careful about printing large objects to the screen.
+
+
+```{r}
+# WARNING!!!
+#
+# Not recommended for large data sets
+#print(iris)
+```
+
+
+## Subsetting the data
+
+Let's analyze just the petal widths of the versicolor species in *iris*. We can create a subset of the data like so:
+
+
+```{r}
+# We can create a new data frame by extracting a subet of all versicolor records,...
+versicolor <- iris[iris$Species == 'versicolor',]
+versicolor
+
+# ...then create a numeric vector of versicolor petal widths, or...
+versicolor_pw <- versicolor$Petal.Width
+versicolor_pw
+
+# ...do the same thing all in one line
+versicolor_pw <- iris[iris$Species == 'versicolor', 'Petal.Width']
+versicolor_pw
+```
+
+As with most programming languages, there is usually more than one way to do things in R. Keep this in mind as you are learning the language.
+
+## Calculating simple statistics
+
+Let's get some simple stats on the pedal widths of versicolor:
+
+
+```{r}
+mean(versicolor_pw)
+median(versicolor_pw)
+var(versicolor_pw)
+sd(versicolor_pw)
+```
+
+## Plotting Data
+
+What happens if we plot the whole *iris* data set?
+
+```{r}
+plot(iris)
+```
+
+Calling _plot()_ on the whole data set makes a scatterplot matrix that plots every variable against every other variable. What if we just want to look at one of these scatterplots?
+
+
+```{r}
+plot(iris$Petal.Length, iris$Petal.Width)
+```
+
+
+We can also make a histogram that describes the distribution of sepal length values:
+
+
+```{r}
+hist(iris$Sepal.Length)
+```
+
+
+Let's give the histogram more detail by increasing the number of bins. This is done with the *breaks* argument:
+
+```{r}
+hist(iris$Sepal.Length, breaks = 15)
+```
+
+Hmm...the x axis is a little off. Let's adjust it with the *xlim* argument:
+
+```{r}
+hist(iris$Sepal.Length, breaks = 25, xlim = c(4, 8))
+```
+
+The are many other options available for the _hist()_ function. Using **?hist** or **help(hist)**, see what else you can find that will improve the figure and type your command in the field below (e.g., how about changing the x axis title?).
+
+```{r}
+# See https://www.r-bloggers.com/how-to-make-a-histogram-with-basic-r/ for more examples
+hist(iris$Sepal.Length, breaks = 15, xlim = c(4, 8), border="navy", col="maroon", 
+     xlab="Sepal Length", main="Histogram for Iris Sepal Length", prob = TRUE)
+
+lines(density(iris$Sepal.Length))
+```
+
+By default, _hist()_ shows the frequency of occurrence of values, as indicated by the y-axis label. If you set 'prob=TRUE', _hist()_ will calculate the **likelihood of occurrance** of the value interval on the x-axis, i.e., a probability density. The _lines()_ function adds a density curve to the plot.
+
+On a side note...remember when we introduced **lists** earlier? A common use of lists is to gather different types of R objects in one container. Many functions, including _hist()_, return a list of different values. Each attribute of the returned histogram correlates to a specific component of the list. For example, if we assign the output of _hist(iris$Sepal.Length)_ to a variable, we can capture the returned list:
+
+```{r}
+sepal_hist <- hist(iris$Sepal.Length)
+sepal_hist
+```
+
+
+Take a look at '?hist' for descriptions of some of these components.
+
+***
+
+There are many other built-in data sets in R. To see a list...
+
+```{r}
+data()
+```
+
+You can also download .csv and .doc file versions here: *<https://vincentarelbundock.github.io/Rdatasets/datasets.html>*. We look at an example of this in the next section.
+
+
+# Loading external data
+
+So far we've been working with the *iris* data set built into R. What if we want to load a .csv file from another source? To demonstrate this, we'll use the *iris* data set again, but this time we'll load it from an external source using the _read.csv()_ function.
+
+```{r}
+iris_df <-read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/datasets/iris.csv",
+                  header = TRUE, sep=",", strip.white=TRUE, stringsAsFactors=FALSE)
+```
+
+As you can see, there are several additional arguments given. *strip.white=TRUE* removes white space from the beginning and end of unquoted values in a character field (numeric values are always trimmed). This argument should be used in conjunction with the _sep_ argument.  *stringsAsFactors=FALSE* forces R to set the data type of strings to 'character'. You can check this using the _str()_ function we introduced ealier:
+
+```{r}
+str(iris_df)
+```
+
+# Importing data from other software
+
+With R, you can import, process, and analyze data in many other file formats. Below we will show examples of libraries that are used to read SAS, Stata, SPSS, and Excel files. These libraries as well as others are introduced in the Data Camp courses **"Importing Data in R (Part 1)"** (*<https://www.datacamp.com/courses/importing-data-in-r-part-2>*) and **Part 2** (*<https://www.datacamp.com/courses/importing-data-in-r-part-1>*).
+
+## Load SAS, Stata, and SPSS files with haven
+
+With the haven package, R has the ability to read and work with files generated from other statistical analysis packages. More detail on this function at *<https://rpubs.com/potentialwjy/ImportDataIntoR04>*.
+
+
+```{r, warning=FALSE}
+# install the haven package
+#install.packages("haven")
+
+# Load the haven package
+library(haven)
+
+# Another option is the 'foreign' library
+```
+
+> --- You can also install packages by going to **Tools** --> **Install Packages** on the R Studio menu bar. A window will pop up that allows you to choose the repository and type the name of the library you are looking for. An idexed list of available names should be revealed as you are typing. ---
+
+### Loading SAS files:
+
+```{r}
+# Load the haven package
+library(haven)
+
+# Import sales.sas7bdat
+sales <- read_sas("http://assets.datacamp.com/production/course_1478/datasets/sales.sas7bdat")
+
+# Display 'sales' structure and a summary
+str(sales)
+summary(sales)
+
+# That summary doesn't look right, so let's convert the appropriate variables to factors
+sales$purchase <- factor(sales$purchase)
+sales$gender <- factor(sales$gender)
+sales$income <- factor(sales$income)
+
+# Display 'sales' structure and a summary again and see the difference
+str(sales)
+summary(sales)
+
+# Where am I?
+getwd()
+
+# Export contents of the SAS file as .csv
+write.csv(sales, file = "Data_Files/sales_sas.csv", row.names = FALSE)
+```
+
+### Loading Stata files:
+
+```{r}
+# Load the haven package
+library(haven)
+
+# Import the data from the URL
+sugar <- read_dta("http://assets.datacamp.com/production/course_1478/datasets/trade.dta")
+
+# Structure of sugar
+str(sugar)
+
+# Convert values in Date column to dates
+sugar$Date <- as.Date(as_factor(sugar$Date))
+
+# Check the structure again; the data type of 'Date' should be changed
+str(sugar)
+```
+
+### Loading SPSS files
+
+```{r}
+# Load the haven package
+library(haven)
+
+# Import person.sav
+traits <- read_sav("http://assets.datacamp.com/production/course_1478/datasets/person.sav")
+
+# Summarize traits
+summary(traits)
+
+# Print out a subset
+subset(traits, Extroversion > 40 & Agreeableness > 40)
+```
+
+The above command prints out a what is called a **tibble**. This is an improvement on the standard data frame in that it provides a nicer printing method than the original. When data is loaded into a tibble, R does not automatically convert strings to factors, changes the names of variables, or create row names. The data type of each column is displayed in the second row for convenience. More on tibbles can be found here: *<https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html>*
+
+### Loading Excel Files
+
+For this next exercise, we'll introduce a few commonly-used functions for navigating through the directory structure on your computer through R. _getwd()_, _dir()_, and _setwd()_ allow you to identify your current directory, print the contents, and change to another directory, respectively:
+
+```{r dir_example, warning=FALSE}
+# Where am I?
+getwd()
+
+# Change my working directory to './Data_Files'
+setwd("./Data_Files")
+
+# List the contents of the directory
+dir()
+```
+
+
+We see that our current folder contains the .xlsx file of interest. Let's install and load the **readxl** package, add our newly-learned _setwd()_ command to move to the right directory, then use the _excel\_sheets()_ and _read\_excel()_ functions to check out the Excel file contents:
+
+
+```{r, warning=FALSE, tidy=TRUE}
+# Other libraries for reading Excel data include gdata (read.xls) and the XLConnect package
+#
+# Install the library if necessary
+# installed.packages("readxl")
+
+# Load the library
+library(readxl)
+
+# Where am I?
+getwd()
+
+# Change my working directory
+setwd("./Data_Files")
+
+# Show the sheets in this .xlsx file
+excel_sheets("FSIS-Recall-Summary-2014.xlsx")
+
+# Just print out sheet 1
+read_excel("FSIS-Recall-Summary-2014.xlsx", sheet = 1)
+
+# Store sheet 1 from the recall file in a list
+recall_list <- read_excel("FSIS-Recall-Summary-2014.xlsx", sheet = 1, skip = 1,
+                          col_types = c("date", "text", "guess", "text", "text", "numeric"))
+
+# Check out the structure of recall_list
+str(recall_list)
+
+# Change object type for "Reason for Recall" column to 'factor'
+recall_list$"Reason for Recall" <- as.factor(recall_list$"Reason for Recall")
+
+# What are the most common causes of recalls in this data set?
+# Using the 'sort()' and 'table()' functions...
+sort(table(recall_list$"Reason for Recall"), decreasing = TRUE)
+
+# You could also just call 'summary'...
+sort(summary(recall_list$"Reason for Recall"), decreasing = TRUE)
+```
+
+# In Conclusion...
+
+What we've gone over in this introduction only scratches the surface of what can be done in R. To become a proficient user of R, you will need to practice coding. Remember that you now have acess to the Data Camp platform (*<https://www.datacamp.com/>*) for the summer session (thanks to Christina Maimone at NUIT Research Computing). The Data Camp R courses provide you with self-paced, hands-on instruction and practice. You should have received a Data Camp invitation email. **You will need to create an account on the Data Camp site with your university email to access the online content.** 
+
+If you are at the beginner level with R and would like to complete a learning track in Data Camp, the "Data Analyst with R" track is recommended (*<https://www.datacamp.com/tracks/data-analyst-with-r>*). For those with more time and interest, the "Data Scientist with R" career track (*<https://www.datacamp.com/tracks/data-scientist-with-r>*) is an option (this is approximately 95 hours of instruction). Other tracks are available too, so feel free to look around and see what interests you.
+
+In addition to the Data Camp site itself, **you also have access to material Christina has uploaded to Canvas**. This includes references, discussion boards, and exercises for you to try: *<https://canvas.northwestern.edu/courses/52737>*
+
+If you would like to continue to have access to Data Camp next Fall, you will have to apply again when the time comes. Check this link for updated information as we approach the Fall quarter: *<http://www.it.northwestern.edu/research/campus-events/data-camp.html>*
+
+# References and Tutorials for R:
+
+1. Data Camp: *<https://www.datacamp.com/courses/tech:r>*
+2. About R: *<https://www.r-project.org/about.html>*
+3. R Help: *<https://www.r-project.org/help.html>*
+4. R Bloggers: *<https://www.r-bloggers.com/>*
+5. Cross Validated: *<https://stats.stackexchange.com/>*
+6. The Art of R Programming (Book): *<https://www.amazon.com/Art-Programming-Statistical-Software-Design/dp/1593273843>*
+7. R for Data Science (Book): *<https://www.amazon.com/Data-Science-Transform-Visualize-Model/dp/1491910399>*
+8. R Cookbook (Book): *<https://www.amazon.com/Cookbook-Analysis-Statistics-Graphics-Cookbooks/dp/0596809158>*
+9. R Markdown reference guide: *<https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf>*
+10. R Markdown cheat sheet: *<https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>*
+11. *<https://joelkuiper.eu/R-workshop>*
+12. *<http://www.r-tutor.com/r-introduction/data-frame/data-import>*
+
+
