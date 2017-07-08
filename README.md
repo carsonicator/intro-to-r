@@ -1,6 +1,6 @@
 # (A Brief) Introduction to R
 
-This tutorial was designed for Northwestern University Master of Science in Clinical Informatics (*<https://nucats.northwestern.edu/education-career-development/investigator-resources/msci>*) students to be given over two 1.5 hour sessions. It is presented in an R Markdown document and covers R basics including arithmetic functions, variable assignment, basic data types, importing and working with files in several formats, and very simple exploratory data analysis techniques. In addition to this tutorial, the students were given full access to Data Camp (*<http://www.datacamp.com>*) content to continue learning R and/or Python in a self-paced, online format.
+This tutorial was designed for Northwestern University Master of Science in Clinical Investigation (*<https://nucats.northwestern.edu/education-career-development/investigator-resources/msci>*) students to be given over two 1.5 hour sessions. It is presented in an R Markdown document and covers R basics including arithmetic functions, variable assignment, basic data types, importing and working with files in several formats, and very simple exploratory data analysis techniques. In addition to this tutorial, the students were given full access to Data Camp (*<http://www.datacamp.com>*) content to continue learning R and/or Python in a self-paced, online format.
 
 ## Getting Started
 
