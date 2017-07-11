@@ -29,6 +29,8 @@ If you have trouble with the installation, there is a [video walkthrough](https:
 
 5. **For Macs**: For _knitr_ to function properly, you will need the [XQuartz](https://www.xquartz.org/) X Window System for OS X.
 
+6. Download the **'Data_Files'** folder and place it in the same folder as 'Intro_to_R.Rmd', or change the code within to the proper path.
+
 ## References
 
 See _Intro_to_R.Rmd_ for references

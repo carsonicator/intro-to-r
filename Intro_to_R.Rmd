@@ -704,7 +704,7 @@ dir()
 We see that our current folder contains the .xlsx file of interest. Let's install and load the **readxl** package, add our newly-learned _setwd()_ command to move to the right directory, then use the _excel\_sheets()_ and _read\_excel()_ functions to check out the Excel file contents:
 
 
-```{r, warning=FALSE, tidy=TRUE}
+```{r, warning=FALSE}
 # Other libraries for reading Excel data include gdata (read.xls) and the XLConnect package
 #
 # Install the library if necessary
@@ -720,6 +720,7 @@ getwd()
 setwd("./Data_Files")
 
 # Show the sheets in this .xlsx file
+# Data file source: https://catalog.data.gov/dataset/summary-of-recall-cases-in-calendar-year
 excel_sheets("FSIS-Recall-Summary-2014.xlsx")
 
 # Just print out sheet 1
